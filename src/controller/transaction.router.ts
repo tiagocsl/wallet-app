@@ -3,10 +3,10 @@ import TransactionUsecase from 'core/usecase/Transaction.usecase';
 import { IRouter, Request, Response, Router } from 'express';
 import HttpStatusCodes from 'http-status-codes';
 
-const makeTransaction =
+const annotateTransaction =
     (usecase: TransactionUsecase) => async (req: Request, res: Response) => {
         try {
-            await usecase.makeTransaction(req.body as Transaction);
+            await usecase.annotateTransaction(req.body as Transaction);
             res.status(HttpStatusCodes.CREATED).json();
         } catch (error: unknown) {
             res.status(HttpStatusCodes.BAD_REQUEST).json(error);
@@ -40,7 +40,7 @@ export default function configureTransactionRouter(
 ): IRouter {
     const router: IRouter = Router();
 
-    router.post('', makeTransaction(usecase));
+    router.post('', annotateTransaction(usecase));
     router.get('', getAllTransactions(usecase));
     router.get('/:id', getTransactionById(usecase));
 

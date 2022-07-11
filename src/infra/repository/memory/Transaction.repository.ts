@@ -13,7 +13,7 @@ class TransactionRepositoryMemory implements TransactionRepository {
         },
     ];
 
-    async makeTransaction(transaction: Transaction): Promise<Transaction> {
+    async annotateTransaction(transaction: Transaction): Promise<Transaction> {
         const newTransaction = this.incrementIdToTransaction(transaction);
         try {
             this.transactions = [...this.transactions, newTransaction];

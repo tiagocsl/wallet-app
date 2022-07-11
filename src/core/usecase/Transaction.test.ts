@@ -20,7 +20,7 @@ test('Should make a transaction', async function () {
         await transactionUsecase.getAllTransactions();
 
     const newTransaction: Transaction =
-        await transactionUsecase.makeTransaction(transactionData);
+        await transactionUsecase.annotateTransaction(transactionData);
 
     const transactionListAfterNewTransaction: Transaction[] =
         await transactionUsecase.getAllTransactions();
@@ -50,7 +50,7 @@ test('Should get an transaction with specified id', async function () {
         emission_date: new Date(),
     } as Transaction;
 
-    await transactionUsecase.makeTransaction(mockedTransaction);
+    await transactionUsecase.annotateTransaction(mockedTransaction);
 
     const existentId = 2;
     const existentTransaction: Transaction =

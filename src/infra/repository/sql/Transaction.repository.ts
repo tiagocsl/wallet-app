@@ -5,7 +5,9 @@ import prisma from '../../database/prisma/prismaClient';
 class TransactionRepositorySQL implements TransactionRepository {
     transaction = prisma.transaction;
 
-    async makeTransaction(transactionData: Transaction): Promise<Transaction> {
+    async annotateTransaction(
+        transactionData: Transaction
+    ): Promise<Transaction> {
         try {
             return await this.transaction.create({data: transactionData});
         } catch (error: unknown) {

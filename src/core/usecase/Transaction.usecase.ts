@@ -8,10 +8,12 @@ class TransactionUsecase {
         this.transactionRepository = transactionRepository;
     }
 
-    async makeTransaction(transaction: Transaction): Promise<Transaction> {
+    async annotateTransaction(transaction: Transaction): Promise<Transaction> {
         try {
             const newTransaction: Transaction =
-                await this.transactionRepository.makeTransaction(transaction);
+                await this.transactionRepository.annotateTransaction(
+                    transaction
+                );
             return newTransaction;
         } catch (error: unknown) {
             throw new Error(
