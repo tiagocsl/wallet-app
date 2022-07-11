@@ -1,13 +1,13 @@
 import Transaction from 'core/entity/Transaction.entity';
 import TransactionRepository from 'core/repository/Transaction.repository';
-import prisma from 'infra/database/prisma/prismaClient';
+import prisma from '../../database/prisma/prismaClient';
 
 class TransactionRepositorySQL implements TransactionRepository {
     transaction = prisma.transaction;
 
     async makeTransaction(transactionData: Transaction): Promise<Transaction> {
         try {
-            return await this.transaction.create({ data: transactionData });
+            return await this.transaction.create({data: transactionData});
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to create a transaction. \nError: ${error}`
