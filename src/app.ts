@@ -1,7 +1,7 @@
-import express, { Application } from "express";
-import cors from "cors";
+import express, { Application } from 'express';
+import cors from 'cors';
 
-import morganMiddleware from "./middlewares/morgan.middleware";
+import morganMiddleware from './infra/middlewares/morgan.middleware';
 
 class App {
     public express: Application;
@@ -20,8 +20,8 @@ class App {
     }
 
     private routes(): void {
-        this.express.get("/", (req, res) => {
-            return res.send("hello world");
+        this.express.get('/', (req, res) => {
+            return res.send('hello world');
         });
     }
 }
