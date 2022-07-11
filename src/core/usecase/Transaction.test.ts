@@ -69,7 +69,5 @@ test('Should throw an error if pass nonexistent id', async function () {
     ): Promise<Transaction> => {
         return await transactionUsecase.getTransactionById(nonexistentId);
     };
-    await expect(nonexistentTransaction(5)).rejects.toThrowError(
-        'Transaction not exist'
-    );
+    await expect(nonexistentTransaction(5)).rejects.toThrowError();
 });

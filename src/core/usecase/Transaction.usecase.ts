@@ -15,9 +15,8 @@ class TransactionUsecase {
     }
 
     async getTransactionById(id: number): Promise<Transaction> {
-        const transactionData: Transaction | undefined =
+        const transactionData: Transaction =
             await this.transactionRepository.getTransactionById(id);
-        if (!transactionData) throw new Error('Transaction not exist');
         return transactionData;
     }
 
