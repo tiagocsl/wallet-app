@@ -9,21 +9,39 @@ class TransactionUsecase {
     }
 
     async makeTransaction(transaction: Transaction): Promise<Transaction> {
-        const newTransaction: Transaction =
-            await this.transactionRepository.makeTransaction(transaction);
-        return newTransaction;
+        try {
+            const newTransaction: Transaction =
+                await this.transactionRepository.makeTransaction(transaction);
+            return newTransaction;
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to create a transaction. \nError: ${error}`
+            );
+        }
     }
 
     async getTransactionById(id: number): Promise<Transaction> {
-        const transactionData: Transaction =
-            await this.transactionRepository.getTransactionById(id);
-        return transactionData;
+        try {
+            const transactionData: Transaction =
+                await this.transactionRepository.getTransactionById(id);
+            return transactionData;
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to get transaction. \nError: ${error}`
+            );
+        }
     }
 
     async getAllTransactions(): Promise<Transaction[]> {
-        const transactionList: Transaction[] =
-            await this.transactionRepository.getAllTransactions();
-        return transactionList;
+        try {
+            const transactionList: Transaction[] =
+                await this.transactionRepository.getAllTransactions();
+            return transactionList;
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to get all transactions. \nError: ${error}`
+            );
+        }
     }
 }
 
