@@ -9,7 +9,7 @@ class TransactionRepositorySQL implements TransactionRepository {
         transactionData: Transaction
     ): Promise<Transaction> {
         try {
-            return await this.transaction.create({data: transactionData});
+            return await this.transaction.create({ data: transactionData });
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to create a transaction. \nError: ${error}`
