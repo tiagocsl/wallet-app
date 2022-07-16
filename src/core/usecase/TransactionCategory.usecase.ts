@@ -12,14 +12,14 @@ class TransactionCategoryUsecase {
         transactionCategory: TransactionCategory
     ): Promise<TransactionCategory> {
         try {
-            const newTransaction: TransactionCategory =
+            const newCategory: TransactionCategory =
                 await this.categoryRepository.createTransactionCategory(
                     transactionCategory
                 );
-            return newTransaction;
+            return newCategory;
         } catch (error: unknown) {
             throw new Error(
-                `An error occurred while trying to create a transaction category. \nError: ${error}`
+                `An error occurred while trying to create a category. \nError: ${error}`
             );
         }
     }

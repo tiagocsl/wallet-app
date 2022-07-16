@@ -4,15 +4,14 @@ import TransactionCategoryRepository from 'core/repository/TransactionCategory.r
 class TransactionCategoryRepositoryMemory
     implements TransactionCategoryRepository
 {
-    transactionCategories: TransactionCategory[] = [
+    categories: TransactionCategory[] = [
         {
             id: 1,
             name: 'home expenses',
             planned_value: 4000,
             real_value: 6200,
             difference_value: 6200 - 4000,
-            type: 'income',
-            transactions: [],
+            type: 'Renda',
             created_at: new Date(),
             updated_at: new Date(),
         },
@@ -21,13 +20,10 @@ class TransactionCategoryRepositoryMemory
     async createTransactionCategory(
         category: TransactionCategory
     ): Promise<TransactionCategory> {
-        const newTransactionCategory = this.incrementIdToCategories(category);
+        const newCategory = this.incrementIdToCategories(category);
         try {
-            this.transactionCategories = [
-                ...this.transactionCategories,
-                newTransactionCategory,
-            ];
-            return Promise.resolve(newTransactionCategory);
+            this.categories = [...this.categories, newCategory];
+            return Promise.resolve(newCategory);
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to create a category. \nError: ${error}`
@@ -36,27 +32,22 @@ class TransactionCategoryRepositoryMemory
     }
 
     private incrementIdToCategories(
-        transactionCategory: TransactionCategory
+        category: TransactionCategory
     ): TransactionCategory {
-        const lastIndexOfTransactionCategoryList: number =
-            this.transactionCategories.length - 1;
-        const newTransactionCategory = {
-            ...transactionCategory,
-            id:
-                this.transactionCategories[lastIndexOfTransactionCategoryList]
-                    .id + 1,
+        const lastIndexOfCategoryList: number = this.categories.length - 1;
+        const newCategory = {
+            ...category,
+            id: this.categories[lastIndexOfCategoryList].id + 1,
         };
-        return newTransactionCategory;
+        return newCategory;
     }
 
     async getTransactionCategoryById(id: number): Promise<TransactionCategory> {
-        let transactionCategory: TransactionCategory | undefined;
+        let category: TransactionCategory | undefined;
         try {
-            transactionCategory = this.transactionCategories.find(
-                (transactionCategory) => transactionCategory.id === id
-            );
-            this.hasTransactionCategory(transactionCategory);
-            return Promise.resolve(transactionCategory as TransactionCategory);
+            category = this.categories.find((category) => category.id === id);
+            this.hasTransactionCategory(category);
+            return Promise.resolve(category as TransactionCategory);
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to find a category. \nError: ${error}`
@@ -64,17 +55,14 @@ class TransactionCategoryRepositoryMemory
         }
     }
 
-    private hasTransactionCategory(
-        transactionCategory: TransactionCategory | undefined
-    ) {
-        if (transactionCategory == null)
+    private hasTransactionCategory(category: TransactionCategory | undefined) {
+        if (category == null)
             throw new Error('The given id does not exist in the database');
     }
 
     async getAllTransactionCategories(): Promise<TransactionCategory[]> {
         try {
-            const transactionCategoryList = this.transactionCategories;
-            return Promise.resolve(transactionCategoryList);
+            return Promise.resolve(this.categories);
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to get all categories. \nError: ${error}`

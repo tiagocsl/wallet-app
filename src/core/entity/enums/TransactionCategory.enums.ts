@@ -1,1 +1,1 @@
-export type TRANSACTION_CATEGORY_TYPE = 'income' | 'expense';
+export type TRANSACTION_CATEGORY_TYPE = 'Despesa' | 'Renda';
