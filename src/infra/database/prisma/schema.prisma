@@ -9,9 +9,25 @@ datasource db {
 
 model Transaction {
     id            Int      @id @default(autoincrement())
-    value         Int
+    value         Float
     origin        String
     destiny       String
     description   String
     emission_date DateTime
+}
+
+enum TRANSACTION_CATEGORY_TYPE {
+    Despesa
+    Renda
+}
+
+model TransactionCategory {
+    id               Int                       @id @default(autoincrement())
+    type             TRANSACTION_CATEGORY_TYPE
+    name             String
+    real_value       Float
+    planned_value    Float
+    difference_value Float
+    created_at       DateTime                  @default(now())
+    updated_at       DateTime                  @updatedAt
 }
