@@ -6,13 +6,16 @@ import configureRouter from './controller/router';
 
 import TransactionUsecase from './core/usecase/Transaction.usecase';
 import TransactionRepositorySQL from './infra/repository/sql/Transaction.repository';
+import TransactionCategoryUsecase from './core/usecase/TransactionCategory.usecase';
+import TransactionCategoryRepositorySQL from './infra/repository/sql/TransactionCategory.repository';
 
 class App {
     public express: Application;
-    transactionRepository: TransactionRepositorySQL =
-        new TransactionRepositorySQL();
-    transaction: TransactionUsecase = new TransactionUsecase(
-        this.transactionRepository
+    transactionRepository = new TransactionRepositorySQL();
+    transactionCategoryRepository = new TransactionCategoryRepositorySQL();
+    transaction = new TransactionUsecase(this.transactionRepository);
+    transactionCategory = new TransactionCategoryUsecase(
+        this.transactionCategoryRepository
     );
 
     constructor() {
@@ -32,7 +35,10 @@ class App {
         this.express.get('/', (req, res) => {
             return res.send('hello world');
         });
-        this.express.use('/api', configureRouter(this.transaction));
+        this.express.use(
+            '/api',
+            configureRouter(this.transaction, this.transactionCategory)
+        );
     }
 }
 
