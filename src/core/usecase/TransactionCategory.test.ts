@@ -13,8 +13,8 @@ test('Should create a category', async function () {
         name: 'Cards Expenses',
         planned_value: 12000,
         real_value: 16412,
-        difference_value: 16412 - 12000,
-        type: 'expense',
+        difference_value: 4412,
+        type: 'Despesa',
         created_at: new Date(),
         updated_at: new Date(),
     } as TransactionCategory;
@@ -51,7 +51,7 @@ test('Should get an category with specified id', async function () {
         planned_value: 4212,
         real_value: 3513,
         difference_value: 3513 - 4212,
-        type: 'income',
+        type: 'Renda',
         created_at: new Date(),
         updated_at: new Date(),
     } as TransactionCategory;
