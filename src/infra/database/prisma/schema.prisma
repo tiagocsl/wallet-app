@@ -16,14 +16,14 @@ model Transaction {
     emission_date DateTime
 }
 
-enum TRANSACTION_CATEGORY_TYPE {
+enum CATEGORY_TYPE {
     Despesa
     Renda
 }
 
-model TransactionCategory {
+model Category {
     id               Int                       @id @default(autoincrement())
-    type             TRANSACTION_CATEGORY_TYPE
+    type             CATEGORY_TYPE
     name             String
     real_value       Float
     planned_value    Float

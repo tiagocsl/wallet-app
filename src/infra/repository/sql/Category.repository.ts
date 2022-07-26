@@ -1,15 +1,11 @@
-import TransactionCategory from 'core/entity/TransactionCategory.entity';
-import TransactionCategoryRepository from 'core/repository/TransactionCategory.repository';
+import Category from 'core/entity/Category.entity';
+import CategoryRepository from 'core/repository/Category.repository';
 import prisma from '../../database/prisma/prismaClient';
 
-class TransactionCategoryRepositorySQL
-    implements TransactionCategoryRepository
-{
-    category = prisma.transactionCategory;
+class CategoryRepositorySQL implements CategoryRepository {
+    category = prisma.category;
 
-    async createTransactionCategory(
-        category: TransactionCategory
-    ): Promise<TransactionCategory> {
+    async createCategory(category: Category): Promise<Category> {
         try {
             return await this.category.create({ data: category });
         } catch (error: unknown) {
@@ -19,8 +15,8 @@ class TransactionCategoryRepositorySQL
         }
     }
 
-    async getTransactionCategoryById(id: number): Promise<TransactionCategory> {
-        let category: TransactionCategory | null;
+    async getCategoryById(id: number): Promise<Category> {
+        let category: Category | null;
         try {
             category = await this.category.findFirst({
                 where: {
@@ -28,7 +24,7 @@ class TransactionCategoryRepositorySQL
                 },
             });
             this.hasTransaction(category);
-            return category as TransactionCategory;
+            return category as Category;
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to find a category. \nError: ${error}`
@@ -36,12 +32,12 @@ class TransactionCategoryRepositorySQL
         }
     }
 
-    private hasTransaction(category: TransactionCategory | null) {
+    private hasTransaction(category: Category | null) {
         if (category == null)
             throw new Error('The given id does not exist in the database');
     }
 
-    async getAllTransactionCategories(): Promise<TransactionCategory[]> {
+    async getAllCategories(): Promise<Category[]> {
         try {
             return this.category.findMany({});
         } catch (error: unknown) {
@@ -52,4 +48,4 @@ class TransactionCategoryRepositorySQL
     }
 }
 
-export default TransactionCategoryRepositorySQL;
+export default CategoryRepositorySQL;

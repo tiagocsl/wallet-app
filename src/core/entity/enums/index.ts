@@ -1,1 +1,1 @@
-export * from './TransactionCategory.enums';
+export * from './Category.enums';

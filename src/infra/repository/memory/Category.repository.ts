@@ -1,10 +1,8 @@
-import TransactionCategory from 'core/entity/TransactionCategory.entity';
-import TransactionCategoryRepository from 'core/repository/TransactionCategory.repository';
+import Category from 'core/entity/Category.entity';
+import CategoryRepository from 'core/repository/Category.repository';
 
-class TransactionCategoryRepositoryMemory
-    implements TransactionCategoryRepository
-{
-    categories: TransactionCategory[] = [
+class CategoryRepositoryMemory implements CategoryRepository {
+    categories: Category[] = [
         {
             id: 1,
             name: 'home expenses',
@@ -17,9 +15,7 @@ class TransactionCategoryRepositoryMemory
         },
     ];
 
-    async createTransactionCategory(
-        category: TransactionCategory
-    ): Promise<TransactionCategory> {
+    async createCategory(category: Category): Promise<Category> {
         const newCategory = this.incrementIdToCategories(category);
         try {
             this.categories = [...this.categories, newCategory];
@@ -31,9 +27,7 @@ class TransactionCategoryRepositoryMemory
         }
     }
 
-    private incrementIdToCategories(
-        category: TransactionCategory
-    ): TransactionCategory {
+    private incrementIdToCategories(category: Category): Category {
         const lastIndexOfCategoryList: number = this.categories.length - 1;
         const newCategory = {
             ...category,
@@ -42,12 +36,12 @@ class TransactionCategoryRepositoryMemory
         return newCategory;
     }
 
-    async getTransactionCategoryById(id: number): Promise<TransactionCategory> {
-        let category: TransactionCategory | undefined;
+    async getCategoryById(id: number): Promise<Category> {
+        let category: Category | undefined;
         try {
             category = this.categories.find((category) => category.id === id);
-            this.hasTransactionCategory(category);
-            return Promise.resolve(category as TransactionCategory);
+            this.hasCategory(category);
+            return Promise.resolve(category as Category);
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to find a category. \nError: ${error}`
@@ -55,12 +49,12 @@ class TransactionCategoryRepositoryMemory
         }
     }
 
-    private hasTransactionCategory(category: TransactionCategory | undefined) {
+    private hasCategory(category: Category | undefined) {
         if (category == null)
             throw new Error('The given id does not exist in the database');
     }
 
-    async getAllTransactionCategories(): Promise<TransactionCategory[]> {
+    async getAllCategories(): Promise<Category[]> {
         try {
             return Promise.resolve(this.categories);
         } catch (error: unknown) {
@@ -71,4 +65,4 @@ class TransactionCategoryRepositoryMemory
     }
 }
 
-export default TransactionCategoryRepositoryMemory;
+export default CategoryRepositoryMemory;

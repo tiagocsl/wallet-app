@@ -1,6 +1,6 @@
-import { TRANSACTION_CATEGORY_TYPE } from './enums';
+import { CATEGORY_TYPE } from './enums';
 
-interface TransactionCategory {
+interface Category {
     id: number;
     name: string;
     planned_value: number;
@@ -8,7 +8,7 @@ interface TransactionCategory {
     difference_value: number;
     created_at: Date;
     updated_at: Date;
-    type: TRANSACTION_CATEGORY_TYPE;
+    type: CATEGORY_TYPE;
 }
 
-export default TransactionCategory;
+export default Category;
