@@ -1,5 +1,6 @@
 import Category from 'core/entity/Category.entity';
 import CategoryRepository from 'core/repository/Category.repository';
+import { hasFindResult } from './_utils';
 
 class CategoryRepositoryMemory implements CategoryRepository {
     categories: Category[] = [
@@ -16,8 +17,9 @@ class CategoryRepositoryMemory implements CategoryRepository {
     ];
 
     async createCategory(category: Category): Promise<Category> {
-        const newCategory = this.incrementIdToCategories(category);
         try {
+            const lastIdOfCategories = this.categories[-1].id;
+            const newCategory = { ...category, id: lastIdOfCategories + 1 };
             this.categories = [...this.categories, newCategory];
             return Promise.resolve(newCategory);
         } catch (error: unknown) {
@@ -27,31 +29,17 @@ class CategoryRepositoryMemory implements CategoryRepository {
         }
     }
 
-    private incrementIdToCategories(category: Category): Category {
-        const lastIndexOfCategoryList: number = this.categories.length - 1;
-        const newCategory = {
-            ...category,
-            id: this.categories[lastIndexOfCategoryList].id + 1,
-        };
-        return newCategory;
-    }
-
     async getCategoryById(id: number): Promise<Category> {
         let category: Category | undefined;
         try {
             category = this.categories.find((category) => category.id === id);
-            this.hasCategory(category);
+            hasFindResult(category?.id);
             return Promise.resolve(category as Category);
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to find a category. \nError: ${error}`
             );
         }
-    }
-
-    private hasCategory(category: Category | undefined) {
-        if (category == null)
-            throw new Error('The given id does not exist in the database');
     }
 
     async getAllCategories(): Promise<Category[]> {

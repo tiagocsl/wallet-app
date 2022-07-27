@@ -1,5 +1,6 @@
 import Transaction from 'core/entity/Transaction.entity';
 import TransactionRepository from 'core/repository/Transaction.repository';
+import { hasFindResult, validateIfFoundId } from './_utils';
 
 class TransactionRepositoryMemory implements TransactionRepository {
     transactions: Transaction[] = [
@@ -14,9 +15,12 @@ class TransactionRepositoryMemory implements TransactionRepository {
     ];
 
     async annotateTransaction(transaction: Transaction): Promise<Transaction> {
-        const newTransaction = this.incrementIdToTransaction(transaction);
         try {
-            this.transactions = [...this.transactions, newTransaction];
+            const lastIdOfTransactions = this.transactions[-1].id;
+            const newTransaction = {
+                ...transaction,
+                id: lastIdOfTransactions + 1,
+            };
             return Promise.resolve(newTransaction);
         } catch (error: unknown) {
             throw new Error(
@@ -25,21 +29,13 @@ class TransactionRepositoryMemory implements TransactionRepository {
         }
     }
 
-    private incrementIdToTransaction(transaction: Transaction): Transaction {
-        const lastIndexOfTransactionList: number = this.transactions.length - 1;
-        const newTransaction = {
-            ...transaction,
-            id: this.transactions[lastIndexOfTransactionList].id + 1,
-        };
-        return newTransaction;
-    }
-
     async getTransactionById(id: number): Promise<Transaction> {
         let transaction: Transaction | undefined;
         try {
             transaction = this.transactions.find(
                 (transaction) => transaction.id === id
             );
+            hasFindResult(transaction?.id);
             return Promise.resolve(transaction as Transaction);
         } catch (error: unknown) {
             throw new Error(
@@ -64,7 +60,7 @@ class TransactionRepositoryMemory implements TransactionRepository {
             const transactionIndex = this.transactions.findIndex(
                 (transaction) => transaction.id === id
             );
-            this.validateIfFoundId(transactionIndex);
+            validateIfFoundId(transactionIndex);
             this.transactions.splice(transactionIndex, 1);
         } catch (error: unknown) {
             throw new Error(
@@ -73,18 +69,13 @@ class TransactionRepositoryMemory implements TransactionRepository {
         }
     }
 
-    validateIfFoundId(transactionIndex: number) {
-        if (transactionIndex > -1) return;
-        else throw new Error('The given id does not exist in the database');
-    }
-
     async deleteManyTransactions(ids: number[]): Promise<void> {
         try {
             ids.forEach((id) => {
                 const transactionIndex = this.transactions.findIndex(
                     (transaction) => transaction.id === id
                 );
-                this.validateIfFoundId(transactionIndex);
+                validateIfFoundId(transactionIndex);
                 this.transactions.splice(transactionIndex, 1);
             });
         } catch (error: unknown) {

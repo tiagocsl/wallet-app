@@ -23,18 +23,12 @@ class CategoryRepositorySQL implements CategoryRepository {
                     id: id,
                 },
             });
-            this.hasTransaction(category);
             return category as Category;
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to find a category. \nError: ${error}`
             );
         }
-    }
-
-    private hasTransaction(category: Category | null) {
-        if (category == null)
-            throw new Error('The given id does not exist in the database');
     }
 
     async getAllCategories(): Promise<Category[]> {
