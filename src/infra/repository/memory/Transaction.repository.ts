@@ -1,6 +1,5 @@
 import Transaction from 'core/entity/Transaction.entity';
 import TransactionRepository from 'core/repository/Transaction.repository';
-import { hasFindResult, validateIfFoundId } from './_utils';
 
 class TransactionRepositoryMemory implements TransactionRepository {
     transactions: Transaction[] = [
@@ -35,7 +34,6 @@ class TransactionRepositoryMemory implements TransactionRepository {
             transaction = this.transactions.find(
                 (transaction) => transaction.id === id
             );
-            hasFindResult(transaction?.id);
             return Promise.resolve(transaction as Transaction);
         } catch (error: unknown) {
             throw new Error(
@@ -60,7 +58,6 @@ class TransactionRepositoryMemory implements TransactionRepository {
             const transactionIndex = this.transactions.findIndex(
                 (transaction) => transaction.id === id
             );
-            validateIfFoundId(transactionIndex);
             this.transactions.splice(transactionIndex, 1);
         } catch (error: unknown) {
             throw new Error(
@@ -75,7 +72,6 @@ class TransactionRepositoryMemory implements TransactionRepository {
                 const transactionIndex = this.transactions.findIndex(
                     (transaction) => transaction.id === id
                 );
-                validateIfFoundId(transactionIndex);
                 this.transactions.splice(transactionIndex, 1);
             });
         } catch (error: unknown) {

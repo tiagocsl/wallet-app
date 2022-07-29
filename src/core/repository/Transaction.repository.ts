@@ -11,10 +11,7 @@ interface TransactionRepository {
     updateTransactionOrigin(id: number, origin: string): Promise<void>;
     updateTransactionDestiny(id: number, destiny: string): Promise<void>;
     updateTransactionEmissionDate(id: number, date: Date): Promise<void>;
-    updateTransactionDescription(
-        id: number,
-        description: string
-    ): Promise<void>;
+    updateTransactionDescription(id: number, description: string): Promise<void>;
 }
 
 export default TransactionRepository;

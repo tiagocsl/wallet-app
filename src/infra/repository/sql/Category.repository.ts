@@ -1,4 +1,5 @@
 import Category from 'core/entity/Category.entity';
+import { CATEGORY_TYPE } from 'core/entity/enums';
 import CategoryRepository from 'core/repository/Category.repository';
 import prisma from '../../database/prisma/prismaClient';
 
@@ -37,6 +38,123 @@ class CategoryRepositorySQL implements CategoryRepository {
         } catch (error: unknown) {
             throw new Error(
                 `An error occurred while trying to get all categories. \nError: ${error}`
+            );
+        }
+    }
+
+    async deleteCategory(id: number): Promise<void> {
+        try {
+            this.category.delete({
+                where: {
+                    id: id,
+                },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to delete category. \nError: ${error}`
+            );
+        }
+    }
+
+    async deleteManyCategories(ids: number[]): Promise<void> {
+        try {
+            this.category.deleteMany({
+                where: {
+                    id: {
+                        in: ids,
+                    },
+                },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to delete many categories. \nError: ${error}`
+            );
+        }
+    }
+
+    async updateCategory(category: Category): Promise<void> {
+        try {
+            this.category.update({
+                data: category,
+                where: { id: category.id },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to update category. \nError: ${error}`
+            );
+        }
+    }
+
+    async updateCategoryName(id: number, name: string): Promise<void> {
+        try {
+            this.category.update({
+                data: { name },
+                where: { id },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to update category name. \nError: ${error}`
+            );
+        }
+    }
+
+    async updateCategoryPlannedValue(
+        id: number,
+        planned_value: number
+    ): Promise<void> {
+        try {
+            this.category.update({
+                data: { planned_value },
+                where: { id },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to update category planned_value. \nError: ${error}`
+            );
+        }
+    }
+
+    async updateCategoryRealValue(
+        id: number,
+        real_value: number
+    ): Promise<void> {
+        try {
+            this.category.update({
+                data: { real_value },
+                where: { id },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to update category real_value. \nError: ${error}`
+            );
+        }
+    }
+
+    async updateCategoryDifferenceValue(
+        id: number,
+        difference_value: number
+    ): Promise<void> {
+        try {
+            this.category.update({
+                data: { difference_value },
+                where: { id },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to update category difference_value. \nError: ${error}`
+            );
+        }
+    }
+
+    async updateCategoryType(id: number, type: CATEGORY_TYPE): Promise<void> {
+        try {
+            this.category.update({
+                data: { type },
+                where: { id },
+            });
+        } catch (error: unknown) {
+            throw new Error(
+                `An error occurred while trying to update category type. \nError: ${error}`
             );
         }
     }
